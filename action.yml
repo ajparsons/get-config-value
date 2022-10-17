@@ -1,0 +1,34 @@
+name: 'Get YAML Value'
+version: 0.0.1
+description: 'Given a valid Semver, update the tags on the github repo.'
+inputs:
+  file: 
+    description: 'YAML file to read'
+  key:
+    description: "Key to get, dot-seperated levels ("first_level.2.value")"
+outputs:
+  value:
+    description: "Returned value"
+    value: ${{ steps.get_value.value }}
+
+runs:
+  using: "composite"
+  steps:
+
+    - uses: actions/setup-python@v4
+      id: python
+      with:
+        python-version: '3.10' 
+        update-environment: false
+
+    - name: Get value
+      id: get_value
+      shell: bash
+      run: |
+        ${{ steps.python.outputs.python-path }} -m venv /tmp/semver-to-tag
+        source /tmp/semver-to-tag/bin/activate
+        pip install ruamel.yaml
+        python ${{ github.action_path }}/get_action_version.py
+      env:
+        YAML_FILE: ${{ inputs.file }}
+        YAML_KEY: ${{ inputs.key }}
