@@ -11,23 +11,42 @@ outputs:
     description: "Returned value"
     value: ${{ steps.get_value.outputs.value }}
 
+env:
+  VENV_PATH: /tmp/semver-to-tag
+
 runs:
   using: "composite"
   steps:
 
-    - uses: actions/setup-python@v4
+    - name: Cache venv
+      id: cache-env
+      uses: actions/cache@v3
+      with:
+        path: ${{ env.VENV_PATH }}
+        key: ${{ runner.os }}-venv-yaml-reader-${{ hashFiles(github.action_path + '/requirements.txt') }}
+
+    - name: Setup python
+      uses: actions/setup-python@v4
+      if: ${{ steps.cache-env.cache-hit == 'false' }}
       id: python
       with:
         python-version: '3.10' 
         update-environment: false
 
+    - name: Setup venv
+      if: ${{ steps.cache-env.cache-hit == 'false' }}
+      id: get_value
+      shell: bash
+      run: |
+        ${{ steps.python.outputs.python-path }} -m venv $VENV_PATH
+        source $VENV_PATH/bin/activate
+        pip install -r ${{ github.action_path }}/requirements.txt
+  
     - name: Get value
       id: get_value
       shell: bash
       run: |
-        ${{ steps.python.outputs.python-path }} -m venv /tmp/semver-to-tag
-        source /tmp/semver-to-tag/bin/activate
-        pip install ruamel.yaml
+        source $VENV_PATH/bin/activate
         python ${{ github.action_path }}/get_key.py
       env:
         YAML_FILE: ${{ inputs.file }}
