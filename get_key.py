@@ -15,8 +15,8 @@ def get_value(file_path: str, key: str):
 
     with open(file_path) as stream:
         try:
-            data = yaml.safe_load(stream)
-        except yaml.YAMLError as exc:
+            data = yaml.load(stream)
+        except YAML.YAMLError as exc:
             print(exc)
 
     for k in key.split("."):
