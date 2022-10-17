@@ -23,7 +23,7 @@ runs:
       uses: actions/cache@v3
       with:
         path: ${{ env.VENV_PATH }}
-        key: ${{ runner.os }}-venv-yaml-reader-${{ hashFiles(github.action_path + '/requirements.txt') }}
+        key: ${{ runner.os }}-venv-yaml-reader-${{ hashFiles(concat(github.action_path,'/requirements.txt')) }}
 
     - name: Setup python
       uses: actions/setup-python@v4
@@ -35,7 +35,7 @@ runs:
 
     - name: Setup venv
       if: ${{ steps.cache-env.cache-hit == 'false' }}
-      id: get_value
+      id: setup_venv
       shell: bash
       run: |
         ${{ steps.python.outputs.python-path }} -m venv $VENV_PATH
