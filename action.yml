@@ -35,14 +35,14 @@ runs:
 
     - name: Setup python
       uses: actions/setup-python@v4
-      if: ${{ steps.cache-env.cache-hit != 'true' }}
+      if: ${{ steps.cache-env.outputs.cache-hit != 'true' }}
       id: python
       with:
         python-version: '3.10' 
         update-environment: false
 
     - name: Setup venv
-      if: ${{ steps.cache-env.cache-hit != 'true' }}
+      if: ${{ steps.cache-env.outputs.cache-hit != 'true' }}
       id: setup_venv
       shell: bash
       run: |
