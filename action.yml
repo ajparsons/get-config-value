@@ -9,7 +9,7 @@ inputs:
 outputs:
   value:
     description: "Returned value"
-    value: ${{ steps.get_value.value }}
+    value: ${{ steps.get_value.outputs.value }}
 
 runs:
   using: "composite"
