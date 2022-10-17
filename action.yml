@@ -28,7 +28,7 @@ runs:
         ${{ steps.python.outputs.python-path }} -m venv /tmp/semver-to-tag
         source /tmp/semver-to-tag/bin/activate
         pip install ruamel.yaml
-        python ${{ github.action_path }}/get_action_version.py
+        python ${{ github.action_path }}/get_key.py
       env:
         YAML_FILE: ${{ inputs.file }}
         YAML_KEY: ${{ inputs.key }}
