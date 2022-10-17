@@ -1,5 +1,30 @@
+import json
 import os
+from pathlib import Path
+
+import toml
 from ruamel.yaml import YAML
+
+yaml=YAML(typ='safe')
+
+def get_data(file_path: str) -> dict:
+    """
+    Get relevant data file based on extention
+    """
+    match Path(file_path).suffix.lower():
+        case ".json":
+            loader = json.load
+        case ".yaml" | ".yml":
+            loader = yaml.load
+        case ".toml":
+            loader = toml.load
+        case e:
+            raise ValueError(f"No loader configured for {e}")
+
+    with open(file_path) as stream:
+        data = loader(stream)
+    
+    return data
 
 def add_to_step_output(**kwargs):
     """
@@ -10,14 +35,11 @@ def add_to_step_output(**kwargs):
             f.write(f'\n{k}={v}')
 
 def get_value(file_path: str, key: str):
+    """
+    Get data based on key
+    """
 
-    yaml=YAML(typ='safe')
-
-    with open(file_path) as stream:
-        try:
-            data = yaml.load(stream)
-        except YAML.YAMLError as exc:
-            print(exc)
+    data = get_data(file_path)
 
     for k in key.split("."):
         data = data[k]
@@ -30,5 +52,4 @@ def get_value(file_path: str, key: str):
 
 if __name__ == "__main__":
     
-    get_value(os.environ["YAML_FILE"], os.environ["YAML_KEY"])
-
+    get_value(os.environ["CONFIG_FILE"], os.environ["CONFIG_KEY"])

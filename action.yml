@@ -1,14 +1,14 @@
-name: 'Get YAML Value'
+name: 'Get Config Value'
 version: 0.1.0
-description: 'Given a valid Semver, update the tags on the github repo.'
+description: 'Given a JSON/YAML/TOML file, extract a value'
 inputs:
   file: 
-    description: 'YAML file to read'
+    description: 'Config file to read'
   key:
     description: "Key to get, dot-seperated levels ('first_level.2.value')"
   venv_path:
-    description: Venv path for action
-    default: /tmp/semver-to-tag
+    description: Venv path for action (optional)
+    default: /tmp/get-config-value-venv
 outputs:
   value:
     description: "Returned value"
@@ -23,7 +23,7 @@ runs:
       with:
         python_version: "3.10"
         requirements_path: ${{github.action_path}}/requirements.txt
-        cache_key: yaml-reader
+        cache_key: config-reader
         venv_path: ${{ inputs.venv_path }}
 
     - name: Get value
@@ -33,6 +33,6 @@ runs:
         source $VENV_PATH/bin/activate
         python ${{ github.action_path }}/get_key.py
       env:
-        YAML_FILE: ${{ inputs.file }}
-        YAML_KEY: ${{ inputs.key }}
+        CONFIG_FILE: ${{ inputs.file }}
+        CONFIG_KEY: ${{ inputs.key }}
         VENV_PATH: ${{ inputs.venv_path }}
