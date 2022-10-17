@@ -18,12 +18,19 @@ runs:
   using: "composite"
   steps:
 
+    - name: Hash requirements
+      id: hash-req
+      shell: bash
+      run: |
+        hashkey = "$(shasum ${{github.action_path}}/requirements.txt | awk '{ print $1 }')"
+        echo "hashkey=$hashkey" >> $GITHUB_OUTPUT
+
     - name: Cache venv
       id: cache-env
       uses: actions/cache@v3
       with:
         path: ${{ env.VENV_PATH }}
-        key: ${{ runner.os }}-venv-yaml-reader-${{ hashFiles(concat(github.action_path,'/requirements.txt')) }}
+        key: ${{ runner.os }}-venv-yaml-reader-${{ steps.hash-req.outputs.hashkey }}
 
     - name: Setup python
       uses: actions/setup-python@v4
