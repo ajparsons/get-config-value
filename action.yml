@@ -1,5 +1,5 @@
 name: 'Get YAML Value'
-version: 0.0.1
+version: 0.1.0
 description: 'Given a valid Semver, update the tags on the github repo.'
 inputs:
   file: 
