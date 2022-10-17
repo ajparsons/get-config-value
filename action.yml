@@ -5,7 +5,7 @@ inputs:
   file: 
     description: 'YAML file to read'
   key:
-    description: "Key to get, dot-seperated levels ("first_level.2.value")"
+    description: "Key to get, dot-seperated levels ('first_level.2.value')"
 outputs:
   value:
     description: "Returned value"
