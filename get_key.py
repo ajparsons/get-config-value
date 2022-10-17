@@ -24,7 +24,7 @@ def get_value(file_path: str, key: str):
         if isinstance(data, list):
             data = {str(x):y for x,y in enumerate(data)}
 
-    print("From {file_path}, read {key}, result: {data}")
+    print(f"From {file_path}, read {key}, result: {data}")
 
     add_to_step_output(value=data)
 
