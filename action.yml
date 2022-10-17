@@ -11,10 +11,11 @@ outputs:
     description: "Returned value"
     value: ${{ steps.get_value.outputs.value }}
 
-env:
-  VENV_PATH: /tmp/semver-to-tag
+
 
 runs:
+  env:
+    VENV_PATH: "/tmp/semver-to-tag"
   using: "composite"
   steps:
 
