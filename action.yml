@@ -6,6 +6,9 @@ inputs:
     description: 'YAML file to read'
   key:
     description: "Key to get, dot-seperated levels ('first_level.2.value')"
+  venv_path:
+    description: Venv path for action
+    default: /tmp/semver-to-tag
 outputs:
   value:
     description: "Returned value"
@@ -14,8 +17,6 @@ outputs:
 
 
 runs:
-  env:
-    VENV_PATH: "/tmp/semver-to-tag"
   using: "composite"
   steps:
 
@@ -29,7 +30,7 @@ runs:
       id: cache-env
       uses: actions/cache@v3
       with:
-        path: ${{ env.VENV_PATH }}
+        path: ${{ inputs.venv_path }}
         key: ${{ runner.os }}-venv-yaml-reader-${{ steps.hash-req.outputs.hashkey }}
 
     - name: Setup python
@@ -48,7 +49,9 @@ runs:
         ${{ steps.python.outputs.python-path }} -m venv $VENV_PATH
         source $VENV_PATH/bin/activate
         pip install -r ${{ github.action_path }}/requirements.txt
-  
+      env:
+        VENV_PATH: ${{ inputs.venv_path }}
+
     - name: Get value
       id: get_value
       shell: bash
@@ -58,3 +61,4 @@ runs:
       env:
         YAML_FILE: ${{ inputs.file }}
         YAML_KEY: ${{ inputs.key }}
+        VENV_PATH: ${{ inputs.venv_path }}
