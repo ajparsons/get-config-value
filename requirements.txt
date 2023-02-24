@@ -1,2 +1,2 @@
-ruamel.yaml
-toml
+ruamel.yaml==0.17.21
+toml==0.10.1

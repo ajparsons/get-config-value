@@ -19,7 +19,7 @@ runs:
   steps:
 
     - name: Create venv
-      uses: ajparsons/cache-requirements-txt@main
+      uses: ajparsons/cache-requirements-txt@47418e65d909c8ab0b403a7c1f6471f14568e75d # v1.0.0
       with:
         python_version: "3.10"
         requirements_path: ${{github.action_path}}/requirements.txt
