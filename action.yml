@@ -1,6 +1,6 @@
 name: 'Get Config Value'
 version: 0.1.0
-description: 'Given a JSON/YAML/TOML file, extract a value'
+description: 'Given a JSON/YAML/TOML file, extract a value given by the key.'
 inputs:
   file: 
     description: 'Config file to read'
