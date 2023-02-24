@@ -2,7 +2,7 @@
 
 Version: 0.1.0
 
-Given a JSON/YAML/TOML file, extract a value
+Given a JSON/YAML/TOML file, extract a value given by the key.
 
 ## Usage
 
