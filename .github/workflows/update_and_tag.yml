@@ -35,7 +35,7 @@ jobs:
           semver: ${{ steps.get_version.outputs.value }}
           update_tags: true
 
-      - uses: ajparsons/auto-action-readme@1f153f1aa27ac190249281d31304893d433d7e6e # v1.0.1
+      - uses: ajparsons/auto-action-readme@fee84b70cf00fc970413a661df4b91797d88d28d # v1.0.1
         with:
           tag: ${{ steps.update_tags.outputs.major_tag }}
           output_file: README.md
